@@ -13,8 +13,8 @@ void CommunicateTask(void *pvParameter);
 void setup() {
     Serial.begin(115200);
     ESP_LOGE("[Debug]","Serial system begin");
-    // pinMode(19,OUTPUT); 
-    // digitalWrite(19,LOW); 
+    // pinMode(12,OUTPUT); 
+    // digitalWrite(12,HIGH); 
     xTaskCreatePinnedToCore(ImuTask, "Core_1_IMU", 16384, NULL, 3, imu_handle, 1);
     xTaskCreatePinnedToCore(CommunicateTask, "Core_1_COM", 8192, NULL, 2,communicate_handle, 1);
 }
@@ -55,6 +55,7 @@ void CommunicateTask(void *pvParameter) {
     int start = millis();
     while (Serial1.available() && millis() - start < 1000) {
       imu.RxFromS3(Serial1.read());
+      
     }
 
     xWasDelayed = xTaskDelayUntil(&xLastWakeTime, com_task_time);

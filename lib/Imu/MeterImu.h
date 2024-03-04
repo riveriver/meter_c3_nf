@@ -19,10 +19,10 @@ ACC  ==> FSR_3: +-2g
 
 class MeterImu : WC_ICM42688_SPI{
   public:
-    const int version = 605;
+    const int version = 606;
     byte  cali_cmd = 0;
     int   sampling_num     = 10000;
-    float cali_threshold   = 20.0f;
+    float cali_threshold   = 15.0f;
     MeterImu() : WC_ICM42688_SPI(6,&SPI){};
     byte Init();
     void Process();
@@ -293,7 +293,7 @@ void MeterImu::DoAccelCalibrationFull() {
 
   // 值检查
   for(int i = 0;i < 6;i++){
-    if(abs(abs(cali_data[i][i / 2]) - 16384) > 300){
+    if(abs(abs(cali_data[i][i / 2]) - 16384) > 1250){
       cali_str = "[EV]";
       cali_str += String(i + 1);
       cali_str += ":";
